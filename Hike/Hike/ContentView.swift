@@ -26,7 +26,7 @@ struct ContentView: View {
             .navigationTitle("Hikes")
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(for: Hike.self) { hike in
-                Text(hike.name)
+                HikeDetail(hike: hike)
             }
         }
     }
