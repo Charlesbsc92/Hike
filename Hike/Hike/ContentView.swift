@@ -8,17 +8,50 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    let hikes:[Hike] = [Hike(name: "Manali", miles: 1836.7, photo: "manali"),
+                        Hike(name: "Munnar", miles: 188.5, photo: "munnar"),
+                        Hike(name: "Dharmasala", miles: 1819.6, photo: "Dharamshala")]
+    
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List(hikes) { hike in
+                NavigationLink(value: hike) {
+                    HikeCell(hike: hike)
+                }
+                .listRowSeparator(.hidden)
+            }
+            .listStyle(.plain)
+            .navigationTitle("Hikes")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(for: Hike.self) { hike in
+                Text(hike.name)
+            }
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
+}
+
+struct HikeCell: View {
+    
+    let hike:Hike
+    
+    var body: some View {
+        HStack(alignment: .top) {
+            Image(hike.photo)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 100)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            VStack(alignment: .leading) {
+                Text(hike.name)
+                Text("\(hike.miles.formatted()) miles")
+            }
+        }
+        .listRowSeparator(.hidden)
+    }
 }
